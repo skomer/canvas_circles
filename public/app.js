@@ -4,7 +4,6 @@
 var app = function() {
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-    ctx.lineWidth = 3;
 
     var circles = function(event) {
 
@@ -15,39 +14,28 @@ var app = function() {
         var startAngle = 0;
         var endAngle = Math.PI*2;
 
-        (function blackCircles(i) {
+        (function drawCircles(i) {
             setTimeout(function() {
-                ctx.strokeStyle = 'black';
                 ctx.beginPath();
-                ctx.arc(x, y, blackRadius, startAngle, endAngle);
-                // console.log("i:", i);
-                blackRadius -= 10;
-                ctx.moveTo(300-((i+1)*(10)), y);
-                console.log("blackRadius:", blackRadius);
+                if (i > 22) {
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = 'black';
+                    ctx.arc(x, y, blackRadius, startAngle, endAngle);
+                    blackRadius -= 10;
+                }
+                else {
+                    ctx.lineWidth = 4;
+                    ctx.strokeStyle = 'white';
+                    ctx.arc(x, y, whiteRadius, startAngle, endAngle);
+                    whiteRadius += 10;
+                }
                 if (--i) {
-                    blackCircles(i);
+                    drawCircles(i);
                 }
             }, 40);
             ctx.closePath();
             ctx.stroke();
-        })(21);
-        (function whiteCircles(i) {
-            setTimeout(function() {
-                ctx.strokeStyle = 'white';
-                ctx.beginPath();
-                ctx.arc(x, y, whiteRadius, startAngle, endAngle);
-                // console.log("i:", i);
-                whiteRadius += 10;
-                ctx.moveTo(200+((i+1)*(10)), y);
-                console.log("whiteRadius:", whiteRadius);
-                if (--i) {
-                    whiteCircles(i);
-                }
-            }, 40);
-            ctx.closePath();
-            ctx.stroke();
-        })(21);
-
+        })(43);
 
 
     }
